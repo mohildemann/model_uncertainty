@@ -315,6 +315,8 @@ selected_areas, objective_value, time = shirabi(gdf_combined,
 plt.show()
 
 unique_solutions, count_unique_solutions = np.unique(np.array(map_configuration_repitition_count), return_counts=True)
+
+
 plt.bar([i for i in range(len(unique_solutions.tolist()))], count_unique_solutions.tolist(), width= 0.2,tick_label=[i for i in range(len(unique_solutions.tolist()))])
 plt.show()
 #plot most frequent map configuration
@@ -324,15 +326,20 @@ fig.set_title("most frequqnet map representation")
 plt.show()
 
 unique_solutions = unique_solutions.tolist()
+
+unique_solution_test = []
 from landclim_simulation import simulate_forest_fires
 point_cloud_obj1,point_cloud_obj2,point_cloud_obj3, weights = [], [], [], []
 for key, value in optimization_results_with_different_weights.items():
     repr = [i for i in value["selected_areas"]['X']]
-    if repr not in unique_solutions:
+    if repr not in unique_solution_test:
+        unique_solution_test.append(repr)
         point_cloud_obj1.append(value["seperate_objective_values"][0])
         point_cloud_obj2.append(value["seperate_objective_values"][1])
         point_cloud_obj3.append(value["seperate_objective_values"][2])
         weights.append(value["weights"])
+
+
 
 burned_area = []
 landclim_input_folder = r"input/landclim_simulation/1_Input"
@@ -344,7 +351,7 @@ management_config = os.path.join(landclim_input_folder, "harvest-parameters.xml"
 #     burned_area.append(simulate_forest_fires(management_config, sol, 0.6))
 #
 #
-df = pd.DataFrame([weights, point_cloud_obj1,point_cloud_obj2,point_cloud_obj3, burned_area]).T
+#df = pd.DataFrame([weights, point_cloud_obj1,point_cloud_obj2,point_cloud_obj3, burned_area]).T
 
 
 # with open(r'output/optimization_results_dataframe_with_simulation_results.pkl', 'wb') as handle:
@@ -367,7 +374,7 @@ plot.set_axis_style(color="black", alpha=1.0)
 
 plot.add(pf, c=df["burned_area"], s=20, cmap = "Reds", label = df["burned_area"])
 
-#plot.show()
+plot.show()
 
 max_values_for_normalization = [312.89029183, 3947.94669924, 89.78111156]
 selected_areas, seperate_objective_values, combined_objective_value, time = shirabi_weighted(gdf_combined,
