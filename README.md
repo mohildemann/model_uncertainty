@@ -1,4 +1,6 @@
 # model_uncertainty
+This is the code to reproduce the majority of results in the paper accessible here: https://drive.google.com/file/d/11jSJ3RNPMPSl1sRWMte8x6F67hg39MVZ/view?usp=sharing
+
 (Step 0: Get Python 3.8) <br />
 Step 1: download the repository <br />
 Step 2: create a folder called venv <br />
